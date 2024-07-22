@@ -15,4 +15,14 @@ export async function handleLoginRoute(req ,res)
 export async function handleSignupRoute(req, res)
 {
     res.render('signUp');
+};
+
+export async function handleLoginPost(req , res)
+{
+  console.log(req.body);
+};
+
+export async function handleSignupPost(req , res)
+{
+    console.log(req.body);
 }
