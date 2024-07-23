@@ -16,4 +16,15 @@ export function createToken(data) {
         throw error
 
     }
+};
+
+export function verifyToken(token) {
+    try {
+        const isMatch = jwt.verify(token, secretKey);
+        return isMatch;
+
+    } catch (error) {
+
+        throw error
+    }
 }
