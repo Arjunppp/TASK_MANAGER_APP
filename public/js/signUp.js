@@ -9,10 +9,8 @@ form.addEventListener('submit', async (event) => {
     const passoword = document.getElementById('password').value;
     const confirmPassword = document.getElementById('cnfrm-password').value;
 
-    const errorText = document.createElement('h4');
-    errorText.id = 'errorText';
-    errorText.style.color = 'red';
-    form.appendChild(errorText);
+    const errorText = document.getElementById('errorText');
+    
 
     if (passoword !== confirmPassword) {
 

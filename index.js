@@ -4,6 +4,7 @@ import { databaseConnection } from './connection.js';
 import path from 'path';
 import { fileURLToPath } from 'url';    
 import 'dotenv/config';
+import { userRouter } from './routes/userRouter.js';
 
 
 const app = express();
@@ -25,6 +26,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 
 app.use('/' , homeRouter);
+app.use('/userpage' , userRouter);
 
 
 app.listen(PORT ,() => 

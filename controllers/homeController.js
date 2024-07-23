@@ -1,5 +1,6 @@
-import { postSignUp } from "../services/userServices.js";
-import { getHashedPassword } from "../utils/bcryptUtil.js";
+import { postLogin, postSignUp } from "../services/userServices.js";
+import { compareHashedPassword, getHashedPassword } from "../utils/bcryptUtil.js";
+import { createToken } from "../utils/jwtUtils.js";
 
 
 
@@ -17,7 +18,43 @@ export async function handleGetSignup(req, res) {
 };
 
 export async function handlePostLogin(req, res) {
-  console.log(req.body);
+  try {
+
+    const { username, password } = req.body;
+
+    const userFromDb = await postLogin(username, password);
+
+    if(userFromDb.length == 0)
+    {
+      throw new Error("User does not exist");
+    }
+    else if(userFromDb.length > 1)
+    {
+      throw new Error("Multiple users exists");
+    }
+    else
+    {
+      let isMatch = await compareHashedPassword(password , userFromDb[0].password);
+      if(!isMatch)
+      {
+        throw new Error("Password is incorrect")
+      }
+      else{
+        
+        let tokendata = {_id :userFromDb[0]._id , username:userFromDb[0].username ,role:userFromDb[0].role};
+        console.log(tokendata);
+        let token  = createToken(tokendata);
+        res.cookie('userToken', token).status(200).redirect('/userpage');
+      }
+
+    }
+
+
+  } catch (error) {
+    console.log(error);
+    res.status(409).json({ error: error.message });
+  }
+
 };
 
 export async function handlePostSignUp(req, res) {

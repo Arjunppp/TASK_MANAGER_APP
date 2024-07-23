@@ -11,6 +11,19 @@ export async function postSignUp(username, email, password) {
     } catch (error) {
         throw error;
     }
-    
 
+
+}
+
+
+export async function postLogin(username) {
+    try {
+
+        let userFromDb = await User.find({ username: username });
+        return userFromDb;
+
+    } catch (error) {
+        throw error;
+
+    }
 }
