@@ -44,7 +44,15 @@ export async function handlePostLogin(req, res) {
         let tokendata = {_id :userFromDb[0]._id , username:userFromDb[0].username ,role:userFromDb[0].role};
         console.log(tokendata);
         let token  = createToken(tokendata);
-        res.cookie('userToken', token).status(200).redirect('/userpage');
+        if(userFromDb[0].role == 'EMPLOYEE')
+        {
+          res.cookie('userToken', token).status(200).redirect('/userpage');
+        }
+        else if(userFromDb[0].role == 'MANAGER')
+        {
+          res.cookie('managerToken', token).status(200).redirect('/managerPage');
+        }
+        
       }
 
     }

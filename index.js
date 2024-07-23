@@ -6,7 +6,8 @@ import { fileURLToPath } from 'url';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import { userRouter } from './routes/userRouter.js';
-import { userAuth } from './middlewares/userAuthMiddleware.js';
+import * as auth from './middlewares/userAuthMiddleware.js';
+import { managerRouter } from './routes/managerRouter.js';
 
 
 const app = express();
@@ -28,7 +29,8 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 
 app.use('/' , homeRouter);
-app.use('/userpage', userAuth ,userRouter);
+app.use('/userpage', auth.userAuth ,userRouter);
+app.use('/managerPage', auth.managerAuth , managerRouter);
 
 
 app.listen(PORT ,() => 
