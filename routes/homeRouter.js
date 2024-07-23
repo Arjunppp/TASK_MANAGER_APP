@@ -1,11 +1,11 @@
 import express from 'express';
-import { handleHomeRoute, handleLoginRoute , handleSignupRoute , handleLoginPost ,handleSignupPost } from '../controllers/homeController.js';
+import * as homeController from '../controllers/homeController.js';
 
 export const homeRouter  = express.Router();
 
 
-homeRouter.route('/').get(handleHomeRoute);
+homeRouter.route('/').get(homeController.handleGetHome);
 
-homeRouter.route('/login').get(handleLoginRoute).post(handleLoginPost);
+homeRouter.route('/login').get(homeController.handleGetLogin).post(homeController.handlePostLogin);
 
-homeRouter.route('/signup').get(handleSignupRoute).post(handleSignupPost);
+homeRouter.route('/signup').get(homeController.handleGetSignup).post(homeController.handlePostSignUp);
