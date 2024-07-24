@@ -1,0 +1,15 @@
+
+body {
+    background-color: #f0f0f0;
+}
+
+.centered-container {
+    margin: auto;
+    padding: 20px;
+    border: 1px solid black;
+    margin-top: 30vh;
+    display: flex;
+    width: 75vw;
+    justify-content: center;
+    align-items: center;
+}
