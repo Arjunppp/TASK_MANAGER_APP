@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import { userRouter } from './routes/userRouter.js';
-import * as auth from './middlewares/userAuthMiddleware.js';
+import * as auth from './middlewares/AuthMiddleware.js';
 import { managerRouter } from './routes/managerRouter.js';
 
 

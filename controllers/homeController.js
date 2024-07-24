@@ -71,7 +71,7 @@ export async function handlePostSignUp(req, res) {
     console.log(username, email, passoword);
     const hasedPass = await getHashedPassword(passoword);
     await postSignUp(username, email, hasedPass);
-    res.status(200).redirect('/loginPage');
+    res.status(200).redirect('/login');
 
   } catch (error) {
     console.error(error)
