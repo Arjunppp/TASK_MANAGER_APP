@@ -1,4 +1,7 @@
-document.addEventListener('DOMContentLoaded', function() {
+
+const projectCreationUrl = 'http://localhost:3000/managerPage/createProject'
+
+document.addEventListener('DOMContentLoaded', function () {
     if (window.employers) {
         const employers = window.employers;
         const addEmpBox = document.getElementById('team-members');
@@ -6,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         resultsDiv.id = 'results';
         resultsDiv.style.position = 'absolute';
         resultsDiv.style.backgroundColor = '#fff';
-       
+
         resultsDiv.style.zIndex = '1000';
         resultsDiv.style.width = '100%'; // Match the width of the input box
         resultsDiv.style.maxHeight = '200px'; // Limit the height of the results box
@@ -20,9 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 let result = employers.filter((each) => {
                     return each.toLowerCase().startsWith(name) || each.toLowerCase() === name;
                 });
-        
+
                 resultsDiv.innerHTML = ''; // Clear previous results
-        
+
                 if (result.length > 0) {
                     result.forEach(element => {
                         const item = document.createElement('p');
@@ -39,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             itm_s.style.border = '1px solid #ccc';
                             document.getElementById('selected-members').appendChild(itm_s);
                             resultsDiv.innerHTML = '';
-                            addEmpBox.value ='';
+                            addEmpBox.value = '';
 
                         });
                         resultsDiv.appendChild(item);
@@ -50,13 +53,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     message.style.padding = '5px';
                     resultsDiv.appendChild(message);
                 }
-        
+
                 console.log('appended');
             } else {
                 resultsDiv.innerHTML = ''; // Clear results if input is empty
             }
         });
-        
+
 
         // Hide the results when clicking outside
         document.addEventListener('click', (e) => {
@@ -67,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     document.getElementById('selected-members').addEventListener('click', (e) => {
         if (e.target.classList.contains('selected-options')) {
-            e.target.remove(); 
+            e.target.remove();
         }
     });
 });
@@ -75,24 +78,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const CreateButton = document.getElementById('Create-Project');
 
-CreateButton.addEventListener('click' , handleProjectCreation);
+CreateButton.addEventListener('click', handleProjectCreation);
 
 
-async function handleProjectCreation()
-{
-    const projectName =  document.getElementById('project-name').value;
+async function handleProjectCreation() {
+    const projectName = document.getElementById('project-name').value;
     const projectSpecification = document.getElementById('projectSpec').value;
     const teamMembers = [];
 
     Array.from(document.getElementsByClassName('selected-options')).forEach((each) => {
-        teamMembers.push(each.textContent || each.value); 
+        teamMembers.push(each.textContent || each.value);
     });
 
     const startDate = document.getElementById('start-date').value;
     const dueDate = document.getElementById('due-date').value;
 
-    const formData = {projectName,projectSpecification ,teamMembers,startDate,dueDate};
+    const formData = { projectName, projectSpecification, teamMembers, startDate, dueDate };
 
-  
+    const response = await fetch(projectCreationUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+    });
+
+
 
 }
