@@ -27,3 +27,14 @@ export async function postLogin(username) {
 
     }
 }
+
+export async function getAllusers()
+{
+   try {
+    const allUsers = await User.find({});
+    return allUsers;
+   } catch (error) {
+    throw error
+   }
+   
+}

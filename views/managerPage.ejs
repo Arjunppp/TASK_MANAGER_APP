@@ -1,7 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('partials/headPartials', { title: 'Manager Page' , styles:'managerPage.css' }) %>
+<%- include('partials/headPartials', { title: 'Manager Page' , styles:'managerPage.css' }) %>
+
 <body>
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-6 d-flex align-items-center image-container">
+                <img id="Profile-image" src="/public/images/dummy.jpg" alt="Profile Picture">
+            </div>
+            <div class="col-3 d-flex align-items-center">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createProject">
+                    + Create Project
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="createProject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Create a New Project</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form id="projectForm">
+                                    <div class="mb-3">
+                                        <label for="project-name" class="form-label">Project Name</label>
+                                        <input type="text" id="project-name" name="project" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="projectSpec" class="form-label">Project Specification</label>
+                                        <textarea name="project-specification" id="projectSpec" class="form-control" rows="3"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div id="selected-members" class="d-flex m-0 p-0"></div>
+                                        <label for="team-members" class="form-label">Team Members</label>
+                                        <input type="text" id="team-members" name="team" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="start-date" class="form-label">Start Date</label>
+                                        <input type="date" name="start-date" id="start-date" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="due-date" class="form-label">Due Date</label>
+                                        <input type="date" name="due-date" id="due-date" class="form-control">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" id="Create-Project" class="btn btn-primary">Create Project</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 d-flex align-items-center">
+                <button class="btn btn-primary">Logout</button>
+            </div>
+        </div>
+        <% if(locals.userInfo) { %>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <p>Role: <%= userInfo.role %></p>
+                    <p>User: <%= userInfo.username %></p>
+                </div>
+            </div>
+        <% } %>
+    </div>
+
+    <% if (locals.allUsers) { %>
+        <script>
+            window.employers = <%- JSON.stringify(allUsers) %>;
+        </script>
+    <% } %>
     
+    <%- include('partials/scriptPartials', { scripts: 'manager.js' }) %>
 </body>
 </html>
