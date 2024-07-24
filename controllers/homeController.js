@@ -6,15 +6,15 @@ import { createToken } from "../utils/jwtUtils.js";
 
 
 export async function handleGetHome(req, res) {
-  res.render('home');
+  res.render('homePage');
 };
 
 export async function handleGetLogin(req, res) {
-  res.render('login');
+  res.render('loginPage');
 };
 
 export async function handleGetSignup(req, res) {
-  res.render('signUp');
+  res.render('signUpPage');
 };
 
 export async function handlePostLogin(req, res) {
@@ -71,7 +71,7 @@ export async function handlePostSignUp(req, res) {
     console.log(username, email, passoword);
     const hasedPass = await getHashedPassword(passoword);
     await postSignUp(username, email, hasedPass);
-    res.status(200).redirect('/login');
+    res.status(200).redirect('/loginPage');
 
   } catch (error) {
     console.error(error)
