@@ -9,3 +9,5 @@ homeRouter.route('/').get(homeController.handleGetHome);
 homeRouter.route('/login').get(homeController.handleGetLogin).post(homeController.handlePostLogin);
 
 homeRouter.route('/signup').get(homeController.handleGetSignup).post(homeController.handlePostSignUp);
+
+homeRouter.route('/logout').get(homeController.handleLogout);

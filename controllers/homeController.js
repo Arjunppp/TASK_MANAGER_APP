@@ -87,4 +87,16 @@ export async function handlePostSignUp(req, res) {
     res.status(409).json({ error: errMsg });
   }
 
+};
+
+
+export async function handleLogout(req, res) {
+  const cookies = req.cookies;
+  for (const cookieName in cookies) {
+      if (cookies.hasOwnProperty(cookieName)) {
+          res.clearCookie(cookieName);
+      }
+  }
+
+  res.redirect('/');
 }

@@ -1,34 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('partials/headPartials', { title: 'Project Page' , styles:'projectPage.css' }) %>
-<body>
 
-    <% if(locals.projectDetails) {%>
-        <% projectDetails.forEach((each) => { %>
-        <div project-id="<%= each._id %>" class="container">
-            <div class="row">
-                <h4><%= each.projectName %></h4>
-            </div>
-            <div class="row">
-                <p><%= each.projectSpecification %></p>
-            </div>
-            <div class="row">
-                <% each.teamMembers.forEach((mem) => { %>
-                    <p><%= mem %></p>
-                <%}) %>
-            </div>
-            <div class="row">
-                <p><%= each.startDate.toISOString().slice(0, 10).split('-').reverse().join('-') %></p>
+    <body>
+        <div class="container mt-4">
+            <div class="row d-flex justify-content-between mb-3">
+                <div class="col-3">
+                    <button class="btn btn-primary">Edit Project</button>
+                </div>
+                <div class="col-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">+ Create Task</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ...
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
+                <div class="col-3">
+                    <a href="/logout" class="btn btn-primary">Logout</a>
+                </div>
             </div>
-            <div class="row">
-                <p><%= each.dueDate.toISOString().slice(0, 10).split('-').reverse().join('-') %></p>
-                
-            </div>
+
+            <% if(locals.projectDetails) {%>
+                <% projectDetails.forEach((each)=> { %>
+                    <div project-id="<%= each._id %>" class="container mb-4 p-3 border rounded">
+                        <div class="row mb-2">
+                            <h2>Project Details:</h2>
+                        </div>
+                        <div class="row mb-2">
+                            <h4>Project Title: <%= each.projectName %>
+                            </h4>
+                        </div>
+                        <div class="row mb-2">
+                            <p>Project Specification: <%= each.projectSpecification %>
+                            </p>
+                        </div>
+                        <div class="row mb-2">
+                            <h5>Team Members:</h5>
+                            <% each.teamMembers.forEach((mem)=> { %>
+                                <p class="ml-3">- <%= mem %>
+                                </p>
+                                <% }) %>
+                        </div>
+                        <div class="row mb-2">
+                            <p>Start Date: <%= each.startDate.toISOString().slice(0, 10).split('-').reverse().join('-')
+                                    %>
+                            </p>
+                        </div>
+                        <div class="row mb-2">
+                            <p>End Date: <%= each.dueDate.toISOString().slice(0, 10).split('-').reverse().join('-') %>
+                            </p>
+                        </div>
+                    </div>
+                    <% }) %>
+                        <% } %>
         </div>
 
-        <% }) %>
-    <% } %>
 
-</body>
+        <%- include('partials/scriptPartials', { scripts: 'project.js' }) %>
+    </body>
+
 </html>
