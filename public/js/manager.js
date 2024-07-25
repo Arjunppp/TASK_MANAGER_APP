@@ -95,13 +95,25 @@ async function handleProjectCreation() {
 
     const formData = { projectName, projectSpecification, teamMembers, startDate, dueDate };
 
-    const response = await fetch(projectCreationUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-    });
+    try {
+        const response = await fetch(projectCreationUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
+
+      if(response.redirected)
+      {
+        const redirectUrl = response.url;
+        alert("Project Created Sucessfully");
+        window.location.href = redirectUrl;
+      }
+
+    } catch (error) {
+
+    }
 
 
 
