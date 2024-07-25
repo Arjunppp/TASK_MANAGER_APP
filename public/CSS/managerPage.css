@@ -12,5 +12,16 @@
 }
 
 
+.projects-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Creates three equal-width columns */
+    gap: 10px; /* Adds space between grid items */
+}
+
+.project-box {
+    border: 1px solid #ddd; /* Optional: Adds a border around each project box */
+    padding: 15px; /* Optional: Adds padding inside each project box */
+    background-color: #f9f9f9; /* Optional: Adds a background color */
+}
 
 

@@ -7,8 +7,14 @@ export async function handleGetManagerpage(req, res) {
 
       const loggedUser = req.user;
       const allUsers = await userService.getAllusers();
+      const projects = await projectService.getAllProjectByManager(loggedUser.username);
+      const projectsData = projects.map((each) => ({
+         projectName: each.projectName,
+         id: each._id,
+         dueDate: each.dueDate
+       }));
       const Employers = allUsers.filter(each => each.role != 'MANAGER').map(each => each.username);
-      res.render('managerPage', { userInfo: loggedUser, allUsers: Employers });
+      res.render('managerPage', { userInfo: loggedUser, allUsers: Employers ,projectsData:projectsData });
 
    } catch (error) {
 
@@ -41,4 +47,13 @@ export async function handleCreateProject(req, res) {
    //then redirect to manager page.
    //When the the Managerpage is rendering , we need to collect all the projects created by the project manager
 
+};
+
+
+export async function handleViewProject(req , res)
+{
+    const projectId = req.params.id;
+    const projectDetails = await projectService.getProject(projectId);
+    console.log(projectDetails);
+    res.render('projectView' ,{projectDetails})
 }

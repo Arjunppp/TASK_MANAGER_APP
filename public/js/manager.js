@@ -104,12 +104,11 @@ async function handleProjectCreation() {
             body: JSON.stringify(formData),
         });
 
-      if(response.redirected)
-      {
-        const redirectUrl = response.url;
-        alert("Project Created Sucessfully");
-        window.location.href = redirectUrl;
-      }
+        if (response.redirected) {
+            const redirectUrl = response.url;
+            alert("Project Created Sucessfully");
+            window.location.href = redirectUrl;
+        }
 
     } catch (error) {
 
@@ -117,4 +116,18 @@ async function handleProjectCreation() {
 
 
 
-}
+};
+
+
+
+const projectsContainer = document.getElementById('projects-row');
+projectsContainer.addEventListener('click', async (e) => {
+    const projectBox = e.target.closest('.project-box');
+   const projectId = projectBox.getAttribute('project-id');
+   const projectViewURL = `http://localhost:3000/managerPage/${projectId}`;
+   window.location.href = projectViewURL;
+  
+});
+
+
+

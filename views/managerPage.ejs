@@ -69,6 +69,19 @@
             </div>
         <% } %>
     </div>
+    <div class="container">
+        <div class="row projects-row" id="projects-row">
+            <% if (locals.projectsData) { %>
+                <% projectsData.forEach(element => { %>
+                    <div project-id="<%= element.id %>" class="col project-box">
+                        <p >Project Name : <%= element.projectName %></p>
+                        <p>Due date: <%= element.dueDate.toISOString().slice(0, 10).split('-').reverse().join('-') %></p>
+                        <p>CreateBy: <%= userInfo.username %></p>
+                    </div>
+                <% }) %>
+            <% } %>
+        </div>
+    </div>
 
     <% if (locals.allUsers) { %>
         <script>

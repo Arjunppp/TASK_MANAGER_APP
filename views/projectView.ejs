@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/headPartials', { title: 'Project Page' , styles:'projectPage.css' }) %>
+<body>
+
+    <% if(locals.projectDetails) {%>
+        <% projectDetails.forEach((each) => { %>
+        <div project-id="<%= each._id %>" class="container">
+            <div class="row">
+                <h4><%= each.projectName %></h4>
+            </div>
+            <div class="row">
+                <p><%= each.projectSpecification %></p>
+            </div>
+            <div class="row">
+                <% each.teamMembers.forEach((mem) => { %>
+                    <p><%= mem %></p>
+                <%}) %>
+            </div>
+            <div class="row">
+                <p><%= each.startDate.toISOString().slice(0, 10).split('-').reverse().join('-') %></p>
+
+            </div>
+            <div class="row">
+                <p><%= each.dueDate.toISOString().slice(0, 10).split('-').reverse().join('-') %></p>
+                
+            </div>
+        </div>
+
+        <% }) %>
+    <% } %>
+
+</body>
+</html>
