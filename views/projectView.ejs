@@ -9,7 +9,7 @@
                     <button class="btn btn-primary">Edit Project</button>
                 </div>
                 <div class="col-3">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    <button type="button" id="create-task" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#exampleModal">+ Create Task</button>
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -21,8 +21,8 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
-                                    ...
+                                <div class="modal-body" id="modal-body">
+                                   
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
@@ -53,10 +53,10 @@
                             <p>Project Specification: <%= each.projectSpecification %>
                             </p>
                         </div>
-                        <div class="row mb-2">
+                        <div class="row mb-2" id="team-members">
                             <h5>Team Members:</h5>
                             <% each.teamMembers.forEach((mem)=> { %>
-                                <p class="ml-3">- <%= mem %>
+                                <p class="ml-3"> <%= mem %>
                                 </p>
                                 <% }) %>
                         </div>
