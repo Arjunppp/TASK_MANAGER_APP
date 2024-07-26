@@ -7,4 +7,4 @@ managerRouter.route('/').get(managerController.handleGetManagerpage);
 
 managerRouter.route('/createProject').post(managerController.handleCreateProject);
 
-managerRouter.route('/:id').get(managerController.handleViewProject);
+managerRouter.route('/:id').get(managerController.handleViewProject).post(managerController.handleCreateTask);

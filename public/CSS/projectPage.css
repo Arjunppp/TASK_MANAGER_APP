@@ -1,0 +1,62 @@
+/* General Styles */
+body {
+    background-color: #f5f5f5;
+}
+
+
+#project-details {
+    background-color: #f9f9f9; /* Light gray for project details */
+}
+
+.task-box {
+    background-color: #e9f7fa; /* Light blue for task boxes */
+}
+
+
+
+.container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Project Details */
+#project-details {
+    background-color: #e9f7fa; /* Light blue background */
+}
+
+/* Tasks Section */
+.tasks-section h3 {
+    margin-top: 20px;
+    color: #333;
+}
+
+/* Task Box */
+.task-box {
+    background-color: #fff3e6; /* Light orange background */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.task-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Styles */
+.modal-header, .modal-footer {
+    background-color: #f1f1f1;
+}
+
+/* Flexbox Container for Profile Image */
+.image-container {
+    justify-content: center;
+}
+
+/* Team Members Display */
+#selected-members {
+    flex-wrap: wrap;
+    gap: 10px;
+}

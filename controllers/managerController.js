@@ -1,4 +1,5 @@
 import * as projectService from "../services/projectServices.js";
+import * as taskService from "../services/taskServices.js";
 import * as userService from "../services/userServices.js";
 
 
@@ -12,9 +13,9 @@ export async function handleGetManagerpage(req, res) {
          projectName: each.projectName,
          id: each._id,
          dueDate: each.dueDate
-       }));
+      }));
       const Employers = allUsers.filter(each => each.role != 'MANAGER').map(each => each.username);
-      res.render('managerPage', { userInfo: loggedUser, allUsers: Employers ,projectsData:projectsData });
+      res.render('managerPage', { userInfo: loggedUser, allUsers: Employers, projectsData: projectsData });
 
    } catch (error) {
 
@@ -34,7 +35,7 @@ export async function handleCreateProject(req, res) {
       const updatedTeamMembers = teamMembers.map(element => {
          return element.slice(1);
       });
-      const projectData = { projectName, projectSpecification, updatedTeamMembers, startDate, dueDate , createdBy};
+      const projectData = { projectName, projectSpecification, updatedTeamMembers, startDate, dueDate, createdBy };
       await projectService.postProjectData(projectData);
       res.status(200).redirect('/managerPage');
    }
@@ -50,10 +51,28 @@ export async function handleCreateProject(req, res) {
 };
 
 
-export async function handleViewProject(req , res)
-{
-    const projectId = req.params.id;
-    const projectDetails = await projectService.getProject(projectId);
-    console.log(projectDetails);
-    res.render('projectView' ,{projectDetails})
+export async function handleViewProject(req, res) {
+   const projectId = req.params.id;
+   const projectDetails = await projectService.getProject(projectId);
+   const tasksAssociated = await taskService.getTasksAssociated(projectId);
+   res.render('projectView', { projectDetails ,tasksAssociated });
+};
+
+export async function handleCreateTask(req, res) {
+
+   try {
+
+      const { task, taskStatus, employee } = req.body;
+      const projectId = req.params.id;
+      const taskDetails = { task, taskStatus, employee, projectId };
+      await taskService.createTask(taskDetails);
+      res.status(200).send('Ok');
+
+   } catch (error) {
+      console.error(error);
+
+   }
+
+
+
 }
