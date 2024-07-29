@@ -34,4 +34,19 @@ export async function getProject(projectId) {
    } catch (error) {
       throw error
    }
+};
+
+
+export async function updateProject(projectDetails) {
+   try {
+      const { projectName, projectSpecification, startDate, dueDate, projectId } = projectDetails;
+   console.log(projectName, projectSpecification, startDate, dueDate, projectId);
+   await Project.findByIdAndUpdate({ _id: projectId }, { projectName: projectName, projectSpecification: projectSpecification, startDate: startDate, dueDate: dueDate }, { new: true });
+
+   } catch (error) {
+      throw error
+
+   }
+
+
 }

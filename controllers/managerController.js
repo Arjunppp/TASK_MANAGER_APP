@@ -75,4 +75,46 @@ export async function handleCreateTask(req, res) {
 
 
 
+};
+
+
+export async function handleDeleteTask(req ,res)
+{
+try {
+      
+   const taskId = req.params.id;
+   const result  = await taskService.DeleteTask(taskId);
+   res.redirect(req.get('referer'));
+   
+} catch (error) {
+   console.error(error);
+}
+};
+
+export async function handleEditTask(req , res)
+{
+   try {
+      const taskId = req.params.id;
+      const {  task, taskStatus, employee } = req.body;
+       const taskDetails = { task, taskStatus, employee , taskId};
+       await taskService.updateTask(taskDetails);
+       res.status(200).send('Ok');
+
+   } catch (error) {
+      console.error(error);
+
+   }
+
+};
+
+
+export async function handleUpdateProject(req , res)
+{
+  try {
+   const projectDetails = req.body;
+   await projectService.updateProject(projectDetails);
+   res.status('200').send('OK');
+  } catch (error) {
+   console.error(error);
+  }
 }

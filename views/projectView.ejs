@@ -1,92 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/headPartials', { title: 'Project Page', styles: 'projectPage.css' }) %>
+<%- include('partials/headPartials', { title: 'Project Page' , styles: 'projectPage.css' }) %>
 
-<body>
-    <div class="container mt-4">
-        <div class="row mb-3">
-            <div class="col-3">
-                <button class="btn btn-primary">Edit Project</button>
-            </div>
-            <div class="col-3 text-center">
-                <button type="button" id="create-task" class="btn btn-success" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal">+ Create Task</button>
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Create New Task</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body" id="modal-body">
-                                <!-- Task creation form can go here -->
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="save-task">Save Task</button>
+    <body>
+        <div class="container mt-4">
+            <div class="row mb-3">
+                <div class="col-3">
+                    <button type="button" id="Edit-project" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createProject">
+                        Edit Project
+                    </button>
+                </div>
+                <div class="col-3 text-center">
+                    <button type="button" id="create-task" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">+ Create Task</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Create New Task</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" id="modal-body">
+                                    <!-- Task creation form can go here -->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" id="save-task">Save Task</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-3 text-end">
+                    <a href="/logout" class="btn btn-danger">Logout</a>
+                </div>
             </div>
-            <div class="col-3 text-end">
-                <a href="/logout" class="btn btn-danger">Logout</a>
-            </div>
+
+            <% if(locals.projectDetails) { %>
+                <% projectDetails.forEach((each)=> { %>
+                    <div project-id="<%= each._id %>" class="mb-4 p-3 border rounded" id="project-details">
+                        <div class="row mb-2">
+                            <h2>Project Details:</h2>
+                        </div>
+                        <div class="row mb-2">
+                            <h4 id="Project-name">Project Title: <%= each.projectName %>
+                            </h4>
+                        </div>
+                        <div class="row mb-2">
+                            <p  id="Project-specification">Project Specification: <%= each.projectSpecification %>
+                            </p>
+                        </div>
+                        <div class="row mb-2" id="team-members">
+                            <h5>Team Members:</h5>
+                            <% each.teamMembers.forEach((mem)=> { %>
+                                <p class="ml-3">
+                                    <%= mem %>
+                                </p>
+                                <% }) %>
+                        </div>
+                        <div class="row mb-2">
+                            <p id="start-date">Start Date: <%= each.startDate.toISOString().slice(0, 10).split('-').reverse().join('-')
+                                    %>
+                            </p>
+                        </div>
+                        <div class="row mb-2">
+                            <p id="end-date">End Date: <%= each.dueDate.toISOString().slice(0, 10).split('-').reverse().join('-') %>
+                            </p>
+                        </div>
+                    </div>
+
+                    
+                    <% }) %>
+
+                        <% } %>
+
+                            <% if(locals.tasksAssociated) { %>
+                                <div class="tasks-section">
+                                    <h3>Associated Tasks:</h3>
+                                    <% tasksAssociated.forEach((each)=> { %>
+                                        <div  task-id="<%= each._id %>" class="mb-4 p-3 task-box border rounded task-sub-section">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <p><strong>Task:</strong>
+                                                       <p id="task-name"> <%= each.task %></p>
+                                                    </p>
+                                                </div>
+                                                <div class="col-3">
+                                                    <p><strong>Employee:</strong>
+                                                        <%= each.employee %>
+                                                    </p>
+                                                </div>
+                                                <div class="col-3">
+                                                    <p><strong>Status:</strong>
+                                                        <%= each.taskStatus %>
+                                                    </p>
+                                                </div>
+                                                <div class="col-3">
+                                                    <p ><span  task-id="<%= each._id %>" class="material-symbols-outlined Delete-task">
+                                                            delete
+                                                        </span></p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                </div>
+                                <% } %>
+                                <div class="modal fade" id="createProject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Create a New Project</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                
+                                            <div class="modal-body">
+                                                <form id="projectForm">
+                                                    <div class="mb-3">
+                                                        <label for="project-name" class="form-label">Project Name</label>
+                                                        <input type="text" id="project-name" name="project" class="form-control" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="projectSpec" class="form-label">Project Specification</label>
+                                                        <textarea name="project-specification" id="projectSpec" class="form-control" rows="3"></textarea>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div id="selected-members" class="d-flex m-0 p-0"></div>
+                                                        <label for="team-members" class="form-label">Team Members</label>
+                                                        <input type="text" id="team-members" name="team" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="start-date" class="form-label">Start Date</label>
+                                                        <input type="date" name="start-date" id="startt-date" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="due-date" class="form-label">Due Date</label>
+                                                        <input type="date" name="due-date" id="due-date" class="form-control">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" id="Update-Project" class="btn btn-primary">Update Project</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>         
         </div>
 
-        <% if(locals.projectDetails) { %>
-            <% projectDetails.forEach((each) => { %>
-                <div project-id="<%= each._id %>" class="mb-4 p-3 border rounded" id="project-details">
-                    <div class="row mb-2">
-                        <h2>Project Details:</h2>
-                    </div>
-                    <div class="row mb-2">
-                        <h4>Project Title: <%= each.projectName %></h4>
-                    </div>
-                    <div class="row mb-2">
-                        <p>Project Specification: <%= each.projectSpecification %></p>
-                    </div>
-                    <div class="row mb-2" id="team-members">
-                        <h5>Team Members:</h5>
-                        <% each.teamMembers.forEach((mem) => { %>
-                            <p class="ml-3"><%= mem %></p>
-                        <% }) %>
-                    </div>
-                    <div class="row mb-2">
-                        <p>Start Date: <%= each.startDate.toISOString().slice(0, 10).split('-').reverse().join('-') %></p>
-                    </div>
-                    <div class="row mb-2">
-                        <p>End Date: <%= each.dueDate.toISOString().slice(0, 10).split('-').reverse().join('-') %></p>
-                    </div>
-                </div>
-            <% }) %>
-        <% } %>
-
-        <% if(locals.tasksAssociated) { %>
-            <div class="tasks-section">
-                <h3>Associated Tasks:</h3>
-                <% tasksAssociated.forEach((each) => { %>
-                    <div task-id="<%= each._id %>" class="mb-4 p-3 task-box border rounded">
-                        <div class="row">
-                            <div class="col-4">
-                                <p><strong>Task:</strong> <%= each.task %></p>
-                            </div>
-                            <div class="col-4">
-                                <p><strong>Employee:</strong> <%= each.employee %></p>
-                            </div>
-                            <div class="col-4">
-                                <p><strong>Status:</strong> <%= each.taskStatus %></p>
-                            </div>
-                        </div>
-                    </div>
-                <% }) %>
-            </div>
-        <% } %>
-    </div>
-
-    <%- include('partials/scriptPartials', { scripts: 'project.js' }) %>
-</body>
+        <%- include('partials/scriptPartials', { scripts: 'project.js' }) %>
+    </body>
 
 </html>
