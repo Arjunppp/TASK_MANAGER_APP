@@ -1,11 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-   
-</body>
+<%- include('partials/headPartials', { title: 'User Page' , styles: 'userPage.css' }) %>
+
+    <body>
+        <div class="container">
+            <% if (locals.logedUser) { %>
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <div id="user-name">
+                            <p>Username: <%= logedUser.username %></p>
+                        </div>
+                        <div id="user-role">
+                            <p>Role: <%= logedUser.role %></p>
+                        </div>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end align-items-center">
+                        <a href="/logout" class="btn btn-primary">Logout</a>
+                    </div>
+                </div>
+            <% } %>
+                    <% if(locals.userProjectTasks) { %>
+                        <% userProjectTasks.forEach((each)=> { %>
+                            <div class="row project-box">
+                                <div class="project-details">
+                                    <p>Project Name: <%= each.projects.projectName %>
+                                    </p>
+                                    <p>Manager Name: <%= each.projects.createdBy %>
+                                    </p>
+                                    <p>Start Date: <%= each.projects.startDate %>
+                                    </p>
+                                    <p>End Date: <%= each.projects.dueDate %>
+                                    </p>
+                                </div>
+                                <div class="tasks-container">
+                                    <% each.projects.tasks.forEach((task)=> { %>
+                                        <div task-id="<%= task._id %>" class="task-box">
+                                            <p>Task Name:<%= task.task %>
+                                            </p>
+                                            <p >Task Status:<%= task.taskStatus %>
+                                            </p>
+                                        </div>
+                                        <% }) %>
+                                </div>
+                            </div>
+                            <% }) %>
+                                <% } %>
+        </div>
+        <div class="modal fade"  id="taskChange" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create a New Project</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="projectForm">
+                            <div class="mb-3">
+                                <label for="project-name" class="form-label">Task Name</label>
+                                <input type="text" id="project-name" name="project" class="form-control"  readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="project-status" class="form-label">Task Status</label>
+                                <select id="project-status" class="form-control">
+                                    <option value="todo">todo</option>
+                                    <option value="ongoing">on going</option>
+                                    <option value="completed">completed</option>
+                                </select>
+                            </div>
+                           
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" id="change-status" class="btn btn-primary">Change Status</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('partials/scriptPartials', { scripts: 'user.js' }) %>
+    </body>
+
 </html>
