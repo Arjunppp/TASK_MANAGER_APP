@@ -19,7 +19,7 @@ export async function createTask(taskDetails) {
 
 export async function getTasksAssociated(projectId) {
     try {
-        const tasksAssociated =  await Task.find({projectId:projectId});
+        const tasksAssociated = await Task.find({ projectId: projectId });
         return tasksAssociated;
 
     } catch (error) {
@@ -29,24 +29,37 @@ export async function getTasksAssociated(projectId) {
 };
 
 
-export async function DeleteTask(taskId)
-{
+export async function DeleteTask(taskId) {
     try {
-        const task  =  await Task.findOneAndDelete({_id:taskId})
+        const task = await Task.findOneAndDelete({ _id: taskId })
 
     } catch (error) {
         throw error
     }
 };
 
-export async function updateTask(taskDetails)
-{
-   try {
-    const { task, taskStatus, employee , taskId} = taskDetails;
-   const updatedResult =  await Task.findByIdAndUpdate({_id:taskId} ,{task:task , taskStatus:taskStatus , employee:employee} ,{new:true});
-   return updatedResult;
-    
-   } catch (error) {
-    throw error
-   }
+export async function updateTask(taskDetails) {
+    try {
+        const { task, taskStatus, employee, taskId } = taskDetails;
+        const updatedResult = await Task.findByIdAndUpdate({ _id: taskId }, { task: task, taskStatus: taskStatus, employee: employee }, { new: true });
+        return updatedResult;
+
+    } catch (error) {
+        throw error
+    }
+};
+
+
+export async function updateTaskSTatusByUser(taskId, taskStatus) {
+    try {
+        
+        const updatedTask = await Task.findByIdAndUpdate({ _id: taskId }, { taskStatus: taskStatus });
+        return updatedTask;
+
+    } catch (error) {
+
+        throw error
+
+    }
+
 }
