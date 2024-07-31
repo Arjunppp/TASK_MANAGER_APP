@@ -1,4 +1,4 @@
-# Blog Application - A User-Friendly Blogging Platform
+# Task Manager Application 
 
 ## Description
 
