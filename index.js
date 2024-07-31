@@ -1,5 +1,5 @@
 import express from 'express';
-import { homeRouter } from './routes/homerouter.js';
+import { homeRouter } from './routes/homeRouter.js';
 import { databaseConnection } from './connection.js';
 import path from 'path';
 import { fileURLToPath } from 'url';    
