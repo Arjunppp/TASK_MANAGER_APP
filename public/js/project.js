@@ -1,3 +1,81 @@
+const searchColumn = document.getElementById('team-memberss');
+const searchUrl = 'http://localhost:3000/managerPage/searchUser';
+
+searchColumn.addEventListener('input', async (event) => {
+    event.stopPropagation();
+    const searchValue = event.target.value;
+    const response = await fetch(searchUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ search: searchValue })
+    });
+
+    const searchResults = await response.json();
+
+    const users = searchResults.map((each) => each.username);
+
+    const addEmpBox = document.getElementById('team-memberss');
+    const resultsDiv = document.getElementById('results') || document.createElement('div');
+    resultsDiv.id = 'results';
+    resultsDiv.style.position = 'absolute';
+    resultsDiv.style.backgroundColor = '#fff';
+    resultsDiv.style.zIndex = '1000';
+    resultsDiv.style.width = '100%';
+    resultsDiv.style.maxHeight = '200px';
+    resultsDiv.style.overflowY = 'auto';
+
+    if (!document.getElementById('results')) {
+        addEmpBox.parentNode.appendChild(resultsDiv);
+    }
+
+    // Get existing selected members
+    const teamMembers = document.getElementById('selected-members');
+    const members = teamMembers.querySelectorAll('p');
+    const existingMembers = Array.from(members).map((each) => each.innerText.replace('❌', '').trim());
+
+    resultsDiv.innerHTML = '';
+    if (users.length > 0) {
+        users.forEach(element => {
+            if (!existingMembers.includes(element)) {
+                const item = document.createElement('p');
+                item.textContent = element;
+                item.style.padding = '5px';
+                item.style.cursor = 'pointer';
+
+                item.addEventListener('click', () => {
+                    const itm_s = document.createElement('p');
+                    itm_s.textContent = `❌${element}`;
+                    itm_s.className = 'selected-options';
+                    itm_s.style.padding = '5px';
+                    itm_s.style.margin = '5px';
+                    itm_s.style.border = '1px solid #ccc';
+                    itm_s.style.cursor = 'pointer'; // Make it clear that these items are also clickable
+
+                    // Add event listener to remove the item when clicked
+                    itm_s.addEventListener('click', () => {
+                        itm_s.remove();
+                    });
+
+                    document.getElementById('selected-members').appendChild(itm_s);
+                    resultsDiv.innerHTML = '';
+                    addEmpBox.value = '';
+                });
+                resultsDiv.appendChild(item);
+            }
+        });
+    } else {
+        const message = document.createElement('div');
+        message.textContent = 'No matches found';
+        message.style.padding = '5px';
+        resultsDiv.appendChild(message);
+    }
+
+    console.log(users);
+});
+
+
 
 const createTask = document.getElementById('create-task');
 
@@ -165,18 +243,33 @@ taskSections.forEach(taskSection => {
 const editProject = document.getElementById('Edit-project');
 
 editProject.addEventListener('click', () => {
-   
-    const projectName = document.getElementById('Project-name').innerText.split(':')[1];
-    const projectSpecification = document.getElementById('Project-specification').innerText.split(':')[1];
-    // const teamMembers =;
-
-    // const startDate = startDateText.;
+    const projectName = document.getElementById('Project-name').innerText.split(':')[1].trim();
+    const projectSpecification = document.getElementById('Project-specification').innerText.split(':')[1].trim();
     const startDate = document.getElementById('start-date').innerText.split(':')[1].split('-').reverse().map(part => part.trim()).join('-');
     const dueDate = document.getElementById('end-date').innerText.split(':')[1].split('-').reverse().map(part => part.trim()).join('-');
+    
+    document.getElementById('selected-members').innerHTML = '';
 
-    console.log(projectName, projectSpecification, startDate, dueDate);
-    //console.log(projectId,projectName,projectSpecification,teamMembers ,startDate,dueDate);
+    // Optionally repopulate selected members if needed
+    const teamMembers = document.getElementById('team-members');
+    const members = teamMembers.querySelectorAll('p');
+    Array.from(members).forEach(each => {
+        const element = each.innerText.replace('❌', '').trim();
+        const itm_s = document.createElement('p');
+        itm_s.textContent = `❌${element}`;
+        itm_s.className = 'selected-options';
+        itm_s.style.padding = '5px';
+        itm_s.style.margin = '5px';
+        itm_s.style.border = '1px solid #ccc';
+        document.getElementById('selected-members').appendChild(itm_s);
+    });
 
+    document.getElementById('selected-members').addEventListener('click', (event) => {
+        if (event.target.classList.contains('selected-options')) {
+            event.target.remove();
+        }
+    });
+    
     document.getElementById('project-name').value = projectName;
     document.getElementById('projectSpec').value = projectSpecification;
     document.getElementById('startt-date').value = startDate;
@@ -185,34 +278,44 @@ editProject.addEventListener('click', () => {
 
 
 
+
 const updateProject = document.getElementById('Update-Project');
 
 
-updateProject.addEventListener('click', async () => {
+updateProject.addEventListener('click', async (event) => {
+    event.stopPropagation();
     const projectId = document.getElementById('project-details').getAttribute('project-id');
-   const projectName = document.getElementById('project-name').value
-   const projectSpecification = document.getElementById('projectSpec').value
-   const startDate = document.getElementById('startt-date').value
-   const dueDate = document.getElementById('due-date').value
+    const projectName = document.getElementById('project-name').value;
+    const projectSpecification = document.getElementById('projectSpec').value;
+    const startDate = document.getElementById('startt-date').value;
+    const dueDate = document.getElementById('due-date').value;
+    const selectedMemebers = document.getElementById('selected-members').querySelectorAll('p');
+    const members = [];
+    Array.from(selectedMemebers).forEach((Each) => 
+    {
+        members.push(Each.innerText.substring(1));    
+    });
 
-    const updatedDetails = {projectName,projectSpecification,startDate, dueDate , projectId};
+    
+    
 
-    const updateUrl = `http://localhost:3000/managerPage/${projectId}`;
 
+     const updatedDetails = { projectName, projectSpecification, startDate, dueDate, projectId ,members };
 
-    const response = await fetch(updateUrl, {
+     const updateUrl = `http://localhost:3000/managerPage/${projectId}`;
+
+     const response = await fetch(updateUrl, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedDetails)
-      });
+         headers: {
+             'Content-Type': 'application/json'
+         },
+         body: JSON.stringify(updatedDetails)
+     });
 
-      if(response.ok && response.statusText =='OK')
-      {
-       alert('Project Updated SUcessFulllyyyyy');
+     if (response.ok && response.statusText == 'OK') {
+         alert('Project Updated Successfully');
         window.location.href = `http://localhost:3000/managerPage/${projectId}`;
-      }
-      
-   
-})
+     }
+});
+
+

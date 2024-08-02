@@ -1,7 +1,6 @@
 
 import { User } from "../models/userModel.js";
-import { Project } from "../models/projectModel.js";
-import { Task } from "../models/taskModel.js";
+
 
 
 export async function postSignUp(username, email, password) {
@@ -87,7 +86,7 @@ export async function getUserProjectsAndTasks(userName) {
                     'projects.tasks.0': { $exists: true }
                 }
             },
-            
+
             {
                 $project: {
                     _id: 0,
@@ -100,6 +99,20 @@ export async function getUserProjectsAndTasks(userName) {
 
         return userProjectDetails;
 
+    } catch (error) {
+
+        throw error;
+
+    }
+};
+
+
+
+export async function getSearchedUsers(searchRegex) {
+    try {
+
+        const users = User.find({username:{$regex: searchRegex}});
+        return users;
     } catch (error) {
 
         throw error;

@@ -55,7 +55,7 @@ export async function handleViewProject(req, res) {
    const projectId = req.params.id;
    const projectDetails = await projectService.getProject(projectId);
    const tasksAssociated = await taskService.getTasksAssociated(projectId);
-   res.render('projectView', { projectDetails ,tasksAssociated });
+   res.render('projectView', { projectDetails, tasksAssociated });
 };
 
 export async function handleCreateTask(req, res) {
@@ -78,27 +78,25 @@ export async function handleCreateTask(req, res) {
 };
 
 
-export async function handleDeleteTask(req ,res)
-{
-try {
-      
-   const taskId = req.params.id;
-   const result  = await taskService.DeleteTask(taskId);
-   res.redirect(req.get('referer'));
-   
-} catch (error) {
-   console.error(error);
-}
+export async function handleDeleteTask(req, res) {
+   try {
+
+      const taskId = req.params.id;
+      const result = await taskService.DeleteTask(taskId);
+      res.redirect(req.get('referer'));
+
+   } catch (error) {
+      console.error(error);
+   }
 };
 
-export async function handleEditTask(req , res)
-{
+export async function handleEditTask(req, res) {
    try {
       const taskId = req.params.id;
-      const {  task, taskStatus, employee } = req.body;
-       const taskDetails = { task, taskStatus, employee , taskId};
-       await taskService.updateTask(taskDetails);
-       res.status(200).send('Ok');
+      const { task, taskStatus, employee } = req.body;
+      const taskDetails = { task, taskStatus, employee, taskId };
+      await taskService.updateTask(taskDetails);
+      res.status(200).send('Ok');
 
    } catch (error) {
       console.error(error);
@@ -108,13 +106,28 @@ export async function handleEditTask(req , res)
 };
 
 
-export async function handleUpdateProject(req , res)
-{
-  try {
-   const projectDetails = req.body;
-   await projectService.updateProject(projectDetails);
-   res.status('200').send('OK');
-  } catch (error) {
-   console.error(error);
-  }
+export async function handleUpdateProject(req, res) {
+   try {
+      const projectDetails = req.body;
+      await projectService.updateProject(projectDetails);
+      res.status('200').send('OK');
+   } catch (error) {
+      console.error(error);
+   }
+};
+
+export async function handleGetAllUsers(req, res) {
+   try {
+      const searchValue = req.body.search;
+      const searchRegex = new RegExp(`^${searchValue}`, 'i');
+      const searchUsers = await userService.getSearchedUsers(searchRegex);
+      res.send(searchUsers).status('200')
+      
+
+   } catch (error) {
+      console.error(error);
+      
+
+   }
+
 }

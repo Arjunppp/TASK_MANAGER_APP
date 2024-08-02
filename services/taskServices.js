@@ -52,7 +52,7 @@ export async function updateTask(taskDetails) {
 
 export async function updateTaskSTatusByUser(taskId, taskStatus) {
     try {
-        
+
         const updatedTask = await Task.findByIdAndUpdate({ _id: taskId }, { taskStatus: taskStatus });
         return updatedTask;
 

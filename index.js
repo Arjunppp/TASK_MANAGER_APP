@@ -33,6 +33,8 @@ app.use('/userpage', auth.userAuth ,userRouter);
 app.use('/managerPage', auth.managerAuth , managerRouter);
 
 
+
+
 app.listen(PORT ,() => 
 {
     console.log(`The application is running on PORT:${PORT}`);
