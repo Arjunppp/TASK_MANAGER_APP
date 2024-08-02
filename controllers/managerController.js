@@ -122,12 +122,28 @@ export async function handleGetAllUsers(req, res) {
       const searchRegex = new RegExp(`^${searchValue}`, 'i');
       const searchUsers = await userService.getSearchedUsers(searchRegex);
       res.send(searchUsers).status('200')
-      
+
 
    } catch (error) {
+      console.error(error);
+
+
+   }
+
+};
+
+
+export async function handleDeleteProject(req, res) {
+   try {
+      const projectId = req.params.id;
+      await projectService.deleteProject(projectId);
+      res.send('ok');
+   } catch (error) {
+
       console.error(error);
       
 
    }
+
 
 }

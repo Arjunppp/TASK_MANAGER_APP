@@ -247,7 +247,7 @@ editProject.addEventListener('click', () => {
     const projectSpecification = document.getElementById('Project-specification').innerText.split(':')[1].trim();
     const startDate = document.getElementById('start-date').innerText.split(':')[1].split('-').reverse().map(part => part.trim()).join('-');
     const dueDate = document.getElementById('end-date').innerText.split(':')[1].split('-').reverse().map(part => part.trim()).join('-');
-    
+
     document.getElementById('selected-members').innerHTML = '';
 
     // Optionally repopulate selected members if needed
@@ -269,7 +269,7 @@ editProject.addEventListener('click', () => {
             event.target.remove();
         }
     });
-    
+
     document.getElementById('project-name').value = projectName;
     document.getElementById('projectSpec').value = projectSpecification;
     document.getElementById('startt-date').value = startDate;
@@ -291,31 +291,48 @@ updateProject.addEventListener('click', async (event) => {
     const dueDate = document.getElementById('due-date').value;
     const selectedMemebers = document.getElementById('selected-members').querySelectorAll('p');
     const members = [];
-    Array.from(selectedMemebers).forEach((Each) => 
-    {
-        members.push(Each.innerText.substring(1));    
+    Array.from(selectedMemebers).forEach((Each) => {
+        members.push(Each.innerText.substring(1));
     });
 
-    
-    
 
 
-     const updatedDetails = { projectName, projectSpecification, startDate, dueDate, projectId ,members };
 
-     const updateUrl = `http://localhost:3000/managerPage/${projectId}`;
 
-     const response = await fetch(updateUrl, {
+    const updatedDetails = { projectName, projectSpecification, startDate, dueDate, projectId, members };
+
+    const updateUrl = `http://localhost:3000/managerPage/${projectId}`;
+
+    const response = await fetch(updateUrl, {
         method: 'PUT',
-         headers: {
-             'Content-Type': 'application/json'
-         },
-         body: JSON.stringify(updatedDetails)
-     });
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedDetails)
+    });
 
-     if (response.ok && response.statusText == 'OK') {
-         alert('Project Updated Successfully');
+    if (response.ok && response.statusText == 'OK') {
+        alert('Project Updated Successfully');
         window.location.href = `http://localhost:3000/managerPage/${projectId}`;
-     }
+    }
 });
 
 
+
+const closeProject = document.getElementById('close-project');
+
+closeProject.addEventListener('click', async() => {
+    if (confirm('Do you want to delete the project ')) {
+        const projectId = document.getElementById('project-details').getAttribute('project-id');
+        const closeProjectUrl = `http://localhost:3000/managerPage/${projectId}`;
+        const resposne = await fetch(closeProjectUrl, { method: 'DELETE' });
+        if (resposne.ok) {
+            alert('Project Deleted Successfully');
+            window.location.href = `http://localhost:3000/managerPage`;
+        }
+        
+
+    }
+
+
+})
