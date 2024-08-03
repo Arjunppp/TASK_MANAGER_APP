@@ -43,4 +43,4 @@ This Node.js application offers a robust and user-friendly platform for managing
 
 ### Deployment
 
--**Aws deployement:** The application is deployed in AWS EC2 instance and can acess through   visit-- http://15.206.72.81/
+-**Aws deployement:** The application is deployed in AWS EC2 instance and can acess through   visit-- http://13.201.54.153/
