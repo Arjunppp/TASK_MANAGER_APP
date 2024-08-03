@@ -83,7 +83,7 @@ export async function handleDeleteTask(req, res) {
 
       const taskId = req.params.id;
       const result = await taskService.DeleteTask(taskId);
-      res.redirect(req.get('referer'));
+      res.status(200).send('ok');
 
    } catch (error) {
       console.error(error);

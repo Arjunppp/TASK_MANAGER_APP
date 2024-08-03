@@ -213,8 +213,8 @@ taskSections.forEach(taskSection => {
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
                         }
-                        if (response.ok && response.statusText == 'OK') {
-                            window.location.href = `http://localhost:3000/managerPage/${projectId}`;
+                        if (response.ok) {
+                            window.location.reload();
                         }
 
                     } catch (error) {
@@ -231,8 +231,8 @@ taskSections.forEach(taskSection => {
             if (confirm('Do you want to delete the task')) {
                 const deleteTaskUrl = `http://localhost:3000/managerPage/taskDel/${taskId}`;
                 const response = await fetch(deleteTaskUrl, { method: 'DELETE' });
-                if (response.redirected) {
-                    window.location.href = response.url;
+                if (response.ok) {
+                    window.location.reload();
                 }
             }
         }
